@@ -10,8 +10,8 @@ image0_topic: "/stereo/left/image_raw"
 image1_topic: "/stereo/right/image_raw"
 output_path: "~/output/"
 
-cam0_calib: "cam0_mei.yaml"
-cam1_calib: "cam1_mei.yaml"
+cam0_calib: "cam0_pinhole.yaml"
+cam1_calib: "cam1_pinhole.yaml"
 image_width: 672
 image_height: 376
    
@@ -33,7 +33,10 @@ body_T_cam1: !!opencv-matrix
    rows: 4
    cols: 4
    dt: d
-   data: []
+   data: [0.01048617, -0.99408734,  0.10807588, -0.02970227,
+          0.99727285,  0.00250063, -0.0737605 ,  0.04164119,
+          0.07305413,  0.1085546 ,  0.99140254,  0.03339389,
+          0.        ,  0.        ,  0.        ,  1.]
 
 #Multiple thread support
 multiple_thread: 1
