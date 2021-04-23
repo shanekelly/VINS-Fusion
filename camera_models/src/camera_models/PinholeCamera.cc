@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <eigen3/Eigen/Dense>
 #include <iomanip>
+#include <iostream>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/core/eigen.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -178,6 +179,8 @@ PinholeCamera::Parameters::readFromYamlFile(const std::string& filename)
     m_fy = static_cast<double>(n["fy"]);
     m_cx = static_cast<double>(n["cx"]);
     m_cy = static_cast<double>(n["cy"]);
+
+    std::cout << *this << std::endl;
 
     return true;
 }

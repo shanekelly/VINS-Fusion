@@ -178,6 +178,8 @@ EquidistantCamera::Parameters::readFromYamlFile(const std::string& filename)
     m_u0 = static_cast<double>(n["u0"]);
     m_v0 = static_cast<double>(n["v0"]);
 
+    std::cout << *this << std::endl;
+
     return true;
 }
 
@@ -418,7 +420,7 @@ EquidistantCamera::liftSphere(const Eigen::Vector2d& p, Eigen::Vector3d& P) cons
     liftProjective(p, P);
 }
 
-/** 
+/**
  * \brief Lifts a point from the image plane to its projective ray
  *
  * \param p image coordinates
@@ -441,7 +443,7 @@ EquidistantCamera::liftProjective(const Eigen::Vector2d& p, Eigen::Vector3d& P) 
     P(2) = cos(theta);
 }
 
-/** 
+/**
  * \brief Project a 3D point (\a x,\a y,\a z) to the image plane in (\a u,\a v)
  *
  * \param P 3D point coordinates
@@ -461,7 +463,7 @@ EquidistantCamera::spaceToPlane(const Eigen::Vector3d& P, Eigen::Vector2d& p) co
 }
 
 
-/** 
+/**
  * \brief Project a 3D point to the image plane and calculate Jacobian
  *
  * \param P 3D point coordinates
@@ -481,7 +483,7 @@ EquidistantCamera::spaceToPlane(const Eigen::Vector3d& P, Eigen::Vector2d& p,
          mParameters.mv() * p_u(1) + mParameters.v0();
 }
 
-/** 
+/**
  * \brief Projects an undistorted 2D point p_u to the image plane
  *
  * \param p_u 2D point coordinates
