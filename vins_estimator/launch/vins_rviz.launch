@@ -1,4 +1,5 @@
 <launch>
     <arg name="rviz_config_file" default="vins_rviz_config.rviz"/>
     <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find vins)/../config/$(arg rviz_config_file)" />
+    <param name="/use_sim_time" value="true" />
 </launch>
