@@ -2,18 +2,18 @@
 
 #common parameters
 #support: 1 imu 1 cam; 1 imu 2 cam: 2 cam;
-imu: 0
+imu: 1
 num_of_cam: 2
 
-imu_topic: "/t265/imu"
-image0_topic: "/t265/fisheye1/image_raw"
-image1_topic: "/t265/fisheye2/image_raw"
+imu_topic: "/alphasense_driver_ros/imu"
+image0_topic: "/alphasense_driver_ros/cam0"
+image1_topic: "/alphasense_driver_ros/cam1"
 output_path: "~/output"
 
-cam0_calib: "left.yaml"
-cam1_calib: "right.yaml"
-image_width: 848
-image_height: 800
+cam0_calib: "cam0.yaml"
+cam1_calib: "cam1.yaml"
+image_width: 720
+image_height: 540
 
 
 # Extrinsic parameter between IMU and Camera.
@@ -24,19 +24,20 @@ body_T_cam0: !!opencv-matrix
    rows: 4
    cols: 4
    dt: d
-   data: [-0.99999395,  0.00148123,  0.00314614,  0.01174957,
-          -0.00147596, -0.99999751,  0.00167656,  0.00499017,
-           0.00314862,  0.00167191,  0.99999365, -0.00574939,
-           0.,          0.,          0.,          1.]
+   data: [-0.010397652184133965, -0.9999427667673749, 0.0025203211434272066, 0.04692062270756783,
+          0.0022704541464207972, -0.0025440594885077217, -0.9999941863827453, -0.00959377320494446,
+          0.9999433653297709, -0.010391869462573256, 0.0022967764466877427, -0.049507973180438564,
+          0.0, 0.0, 0.0, 1.0]
 
 body_T_cam1: !!opencv-matrix
    rows: 4
    cols: 4
    dt: d
-   data: [-0.9999982,   0.0006802,  -0.00177111, -0.05195332,
-          -0.0006873,  -0.99999172,  0.00401128,  0.00643074,
-          -0.00176837,  0.00401249,  0.99999039, -0.00495189,
-          0.,          0.,          0.,          1.]
+   data: [0.0006867115752680064, 0.9999958843955437, 0.0027856093026925044, 0.06335998649515023,
+          0.012318066740250488, -0.0027938575426343926, 0.9999202266140107, 0.010907038213928364,
+          0.999923893933431, -0.0006523434726576349, -0.012319934618274325, -0.04901782954398574,
+          0.0, 0.0, 0.0, 1.0]
+
 
 #Multiple thread support
 multiple_thread: 1
@@ -55,15 +56,15 @@ max_num_iterations: 8   # max solver itrations, to guarantee real time
 keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
 
 #imu parameters       The more accurate parameters you provide, the better performance
-acc_n: 8.182e-03      # accelerometer measurement noise standard deviation. #0.2   0.04
-gyr_n: 2.268e-03      # gyroscope measurement noise standard deviation.     #0.05  0.004
-acc_w: 9.999e-03      # accelerometer bias random work noise standard deviation.  #0.002
-gyr_w: 7.071e-04      # gyroscope bias random work noise standard deviation.     #4.0e-5
+acc_n: 0.19      # accelerometer measurement noise standard deviation. #0.2   0.04
+gyr_n: 0.19      # gyroscope measurement noise standard deviation.     #0.05  0.004
+acc_w: 0.043      # accelerometer bias random work noise standard deviation.  #0.002
+gyr_w: 0.00266      # gyroscope bias random work noise standard deviation.     #4.0e-5
 g_norm: 9.81          # gravity magnitude
 
 #unsynchronization parameters
-estimate_td: 0                      # online estimate time offset between camera and imu
-td: 0.00                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+estimate_td: 1                      # online estimate time offset between camera and imu
+td: 0.0018                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
 
 #loop closure parameters
 load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
