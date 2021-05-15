@@ -55,7 +55,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 100
+      Plane Cell Count: 1000
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/Axes
@@ -348,25 +348,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 1.4476852416992188
+      Distance: 3.805035352706909
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -2.2745347023010254
-        Y: -8.797818183898926
-        Z: 0.3814338743686676
+        X: 1.3279114961624146
+        Y: 1.7665064334869385
+        Z: 0.3814369738101959
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3297966718673706
+      Pitch: 0.42479658126831055
       Target Frame: world
       Value: ThirdPersonFollower (rviz)
-      Yaw: 2.325611114501953
+      Yaw: 1.1356005668640137
     Saved: ~
 Window Geometry:
   Displays:
