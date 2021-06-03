@@ -10,6 +10,7 @@ image0_topic: "/t265/fisheye1/image_raw"
 image1_topic: "/t265/fisheye2/image_raw"
 # image0_topic: "/t265/fisheye1/image_equalized"
 # image1_topic: "/t265/fisheye2/image_equalized"
+mask_fpath_0: "/home/sgk/eth/research/rowesys-vio/masks/t265/67-5-deg_left_mask.png"
 output_path: "~/output"
 
 cam0_calib: "left.yaml"

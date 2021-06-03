@@ -1,8 +1,8 @@
 /*******************************************************
  * Copyright (C) 2019, Aerial Robotics Group, Hong Kong University of Science and Technology
- * 
+ *
  * This file is part of VINS.
- * 
+ *
  * Licensed under the GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  *******************************************************/
@@ -38,6 +38,9 @@ int USE_IMU;
 int MULTIPLE_THREAD;
 map<int, Eigen::Vector3d> pts_gt;
 std::string IMAGE0_TOPIC, IMAGE1_TOPIC;
+std::string MASK_FPATH_0/*, MASK_FPATH_1*/;  // File paths to cam0 and cam1 image masks.
+bool USE_IMAGE_MASK;  // Whether or not to use image masks to remove features.
+cv::Mat IMAGE_MASK_0/*, IMAGE_MASK_1*/;  // The image masks for cam0 and cam1.
 std::string FISHEYE_MASK;
 std::vector<std::string> CAM_NAMES;
 int MAX_CNT;
@@ -69,7 +72,7 @@ void readParameters(std::string config_file)
     if(fh == NULL){
         ROS_WARN("config_file dosen't exist; wrong config_file path");
         ROS_BREAK();
-        return;          
+        return;
     }
     fclose(fh);
 
@@ -121,7 +124,7 @@ void readParameters(std::string config_file)
         TIC.push_back(Eigen::Vector3d::Zero());
         EX_CALIB_RESULT_PATH = OUTPUT_FOLDER + "/extrinsic_parameter.csv";
     }
-    else 
+    else
     {
         if ( ESTIMATE_EXTRINSIC == 1)
         {
@@ -137,8 +140,8 @@ void readParameters(std::string config_file)
         cv::cv2eigen(cv_T, T);
         RIC.push_back(T.block<3, 3>(0, 0));
         TIC.push_back(T.block<3, 1>(0, 3));
-    } 
-    
+    }
+
     NUM_OF_CAM = fsSettings["num_of_cam"];
     printf("camera number %d\n", NUM_OF_CAM);
 
@@ -151,7 +154,7 @@ void readParameters(std::string config_file)
 
     int pn = config_file.find_last_of('/');
     std::string configPath = config_file.substr(0, pn);
-    
+
     std::string cam0Calib;
     fsSettings["cam0_calib"] >> cam0Calib;
     std::string cam0Path = configPath + "/" + cam0Calib;
@@ -162,10 +165,10 @@ void readParameters(std::string config_file)
         STEREO = 1;
         std::string cam1Calib;
         fsSettings["cam1_calib"] >> cam1Calib;
-        std::string cam1Path = configPath + "/" + cam1Calib; 
+        std::string cam1Path = configPath + "/" + cam1Calib;
         //printf("%s cam1 path\n", cam1Path.c_str() );
         CAM_NAMES.push_back(cam1Path);
-        
+
         cv::Mat cv_T;
         fsSettings["body_T_cam1"] >> cv_T;
         Eigen::Matrix4d T;
@@ -178,8 +181,8 @@ void readParameters(std::string config_file)
     BIAS_ACC_THRESHOLD = 0.1;
     BIAS_GYR_THRESHOLD = 0.1;
 
-    TD = fsSettings["td"];
-    ESTIMATE_TD = fsSettings["estimate_td"];
+    TD = fsSettings["td"];  // initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+    ESTIMATE_TD = fsSettings["estimate_td"];  // boolean
     if (ESTIMATE_TD)
         ROS_INFO_STREAM("Unsynchronized sensors, online estimate time offset, initial td: " << TD);
     else
@@ -195,6 +198,33 @@ void readParameters(std::string config_file)
         ESTIMATE_TD = 0;
         printf("no imu, fix extrinsic param; no time offset calibration\n");
     }
+
+    fsSettings["mask_fpath_0"] >> MASK_FPATH_0;
+    // fsSettings["mask_fpath_1"] >> MASK_FPATH_1;
+
+    USE_IMAGE_MASK = false;
+    if (!MASK_FPATH_0.empty()) {
+      IMAGE_MASK_0 = cv::imread(MASK_FPATH_0, CV_LOAD_IMAGE_GRAYSCALE);
+      if (IMAGE_MASK_0.empty()) {
+        std::stringstream err_msg;
+        err_msg << "Image mask loaded from " << MASK_FPATH_0 << " is empty." << std::endl;
+        throw std::runtime_error(err_msg.str());
+      }
+      cv::threshold(IMAGE_MASK_0, IMAGE_MASK_0, 127, 255, CV_THRESH_BINARY);
+      USE_IMAGE_MASK = true;
+      ROS_INFO("Loaded image mask 0 from: %s", MASK_FPATH_0.c_str());
+    }
+    // if (!MASK_FPATH_1.empty()) {
+    //   IMAGE_MASK_1 = cv::imread(MASK_FPATH_1, CV_LOAD_IMAGE_GRAYSCALE);
+    //   if (IMAGE_MASK_1.empty()) {
+    //     std::stringstream err_msg;
+    //     err_msg << "Image mask loaded from " << MASK_FPATH_1 << " is empty." << std::endl;
+    //     throw std::runtime_error(err_msg.str());
+    //   }
+    //   cv::threshold(IMAGE_MASK_1, IMAGE_MASK_1, 127, 255, CV_THRESH_BINARY);
+    //   USE_IMAGE_MASK = true;
+    //   ROS_INFO("Loaded image mask 1 from: %s", MASK_FPATH_1.c_str());
+    // }
 
     fsSettings.release();
 }

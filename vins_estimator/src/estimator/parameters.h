@@ -1,8 +1,8 @@
 /*******************************************************
  * Copyright (C) 2019, Aerial Robotics Group, Hong Kong University of Science and Technology
- * 
+ *
  * This file is part of VINS.
- * 
+ *
  * Licensed under the GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  *******************************************************/
@@ -44,8 +44,8 @@ extern std::string EX_CALIB_RESULT_PATH;
 extern std::string VINS_RESULT_PATH;
 extern std::string OUTPUT_FOLDER;
 extern std::string IMU_TOPIC;
-extern double TD;
-extern int ESTIMATE_TD;
+extern double TD;  // initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+extern int ESTIMATE_TD;  // boolean whether or not to estimate time offset between imu and cameras
 extern int ROLLING_SHUTTER;
 extern int ROW, COL;
 extern int NUM_OF_CAM;
@@ -56,6 +56,9 @@ extern int MULTIPLE_THREAD;
 extern map<int, Eigen::Vector3d> pts_gt;
 
 extern std::string IMAGE0_TOPIC, IMAGE1_TOPIC;
+extern std::string MASK_FPATH_0/*, MASK_FPATH_1*/;  // File paths to cam0 and cam1 image masks.
+extern bool USE_IMAGE_MASK;  // Whether or not to use image masks to remove features.
+extern cv::Mat IMAGE_MASK_0/*, IMAGE_MASK_1*/;  // The image masks for cam0 and cam1.
 extern std::string FISHEYE_MASK;
 extern std::vector<std::string> CAM_NAMES;
 extern int MAX_CNT;
