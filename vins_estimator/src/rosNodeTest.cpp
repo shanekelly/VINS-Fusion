@@ -29,6 +29,10 @@ queue<sensor_msgs::ImageConstPtr> img0_buf;
 queue<sensor_msgs::ImageConstPtr> img1_buf;
 std::mutex m_buf;
 
+static std::ofstream input_image_timing_file{"/home/sgk/eth/research/rowesys-vio/libs/cws_vins/src/VINS-Fusion/results/vinsfusion_timing_input-image.txt"};
+
+bool should_skip = false;
+
 
 void img0_callback(const sensor_msgs::ImageConstPtr &img_msg)
 {
@@ -105,8 +109,20 @@ void sync_process()
                 }
             }
             m_buf.unlock();
-            if(!image0.empty())
+            if(!image0.empty()) {
+              if (!should_skip) {
+                // Skip every other image pair here, rather than tracking every
+                // image pair and then skipping every other tracked image pair
+                // later. This saves quite a bit of compute.
+                TicToc input_image_timer;
                 estimator.inputImage(time, image0, image1);
+                double input_image_time = input_image_timer.toc() / 1000.0;
+                input_image_timing_file << input_image_time << std::endl;
+                should_skip = true;
+              } else {
+                should_skip = false;
+              }
+            }
         }
         else
         {
@@ -150,6 +166,7 @@ void imu_callback(const sensor_msgs::ImuConstPtr &imu_msg)
 
 void feature_callback(const sensor_msgs::PointCloudConstPtr &feature_msg)
 {
+    std::cout << "ASDFASDFASDFASFD" << std::endl;
     map<int, vector<pair<int, Eigen::Matrix<double, 7, 1>>>> featureFrame;
     for (unsigned int i = 0; i < feature_msg->points.size(); i++)
     {
