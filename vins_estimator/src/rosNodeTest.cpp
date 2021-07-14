@@ -139,7 +139,12 @@ void sync_process()
             }
             m_buf.unlock();
             if(!image.empty())
+              if (!should_skip) {
                 estimator.inputImage(time, image);
+                should_skip = true;
+              } else {
+                should_skip = false;
+              }
         }
 
         std::chrono::milliseconds dura(2);

@@ -1,0 +1,71 @@
+%YAML:1.0
+---
+
+# model_type: MEI
+# camera_name: camera
+# image_width: 848
+# image_height: 800
+# mirror_parameters:
+#    xi: 0.9435421743992218
+# distortion_parameters:
+#    k1: -0.2572700733153039
+#    k2: -0.03633589137983016
+#    p1: 0.0010301519370796758
+#    p2: -0.0004670121341190266
+# projection_parameters:
+#    gamma1: 556.298481510608
+#    gamma2: 554.5690511397764
+#    u0: 420.49786515023254
+#    v0: 411.95039073349835
+
+# model_type: PINHOLE
+# camera_name: camera
+# image_width: 848
+# image_height: 800
+# distortion_parameters:
+#    # k1: -0.0015544580528512597
+#    # k2: 0.03598850965499878
+#    k1: 0
+#    k2: 0
+#    # p1: -0.03366529941558838
+#    # p2: 0.0053024617955088615
+#    p1: 0
+#    p2: 0
+# projection_parameters:
+#    fx: 284.54730224609375
+#    fy: 285.53131103515625
+#    cx: 420.948486328125
+#    cy: 393.4858093261719
+
+# model_type: PINHOLE_FULL
+# camera_name: camera
+# image_width: 848
+# image_height: 800
+# distortion_parameters:
+#    k1: -0.0015544580528512597
+#    k2: 0.03598850965499878
+#    k3: -0.03366529941558838
+#    k4: 0.0053024617955088615
+#    k5: 0.0
+#    k6: 0.0
+#    p1: 0.0
+#    p2: 0.0
+# projection_parameters:
+#    fx: 284.54730224609375
+#    fy: 285.53131103515625
+#    cx: 420.948486328125
+#    cy: 393.4858093261719
+
+model_type: KANNALA_BRANDT
+camera_name: camera
+image_width: 848
+image_height: 800
+projection_parameters:
+   k2: -0.0015544580528512597
+   k3: 0.03598850965499878
+   k4: -0.03366529941558838
+   k5: 0.0053024617955088615
+   mu: 284.54730224609375
+   mv: 285.53131103515625
+   u0: 420.948486328125
+   v0: 393.4858093261719

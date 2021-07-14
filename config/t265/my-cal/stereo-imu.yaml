@@ -8,9 +8,9 @@ num_of_cam: 2
 imu_topic: "/t265/imu"
 image0_topic: "/t265/fisheye1/image_raw"
 image1_topic: "/t265/fisheye2/image_raw"
-# image0_topic: "/t265/fisheye1/image_equalized"
-# image1_topic: "/t265/fisheye2/image_equalized"
-mask_fpath_0: "/home/sgk/eth/research/rowesys-vio/masks/t265/67-5-deg_left_mask.png"
+# image0_topic: "/t265/fisheye1/image_eq"
+# image1_topic: "/t265/fisheye2/image_eq"
+mask_fpath_0: "/home/sgk/eth/research/rowesys-vio/masks/t265/all-white.png"
 output_path: "~/output"
 
 cam0_calib: "left.yaml"
@@ -45,23 +45,23 @@ body_T_cam1: !!opencv-matrix
 multiple_thread: 1
 
 #feature traker paprameters
-max_cnt: 150            # max feature number in feature tracking
+max_cnt: 300            # max feature number in feature tracking
 min_dist: 30            # min distance between two features
 freq: 0                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image
 F_threshold: 1.0        # ransac threshold (pixel)
-show_track: 0           # publish tracking image as topic
+show_track: 1           # publish tracking image as topic
 flow_back: 1            # perform forward and backward optical flow to improve feature tracking accuracy
 
 #optimization parameters
 max_solver_time: 0.04  # max solver itration time (ms), to guarantee real time
-max_num_iterations: 4   # max solver itrations, to guarantee real time
-keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
+max_num_iterations: 8   # max solver itrations, to guarantee real time
+keyframe_parallax: 5.0 # keyframe selection threshold (pixel)
 
 #imu parameters       The more accurate parameters you provide, the better performance
-acc_n: 8.182e-03      # accelerometer measurement noise standard deviation. #0.2   0.04
-gyr_n: 2.268e-03      # gyroscope measurement noise standard deviation.     #0.05  0.004
-acc_w: 9.999e-03      # accelerometer bias random work noise standard deviation.  #0.002
-gyr_w: 7.071e-04      # gyroscope bias random work noise standard deviation.     #4.0e-5
+acc_n: 8.182e-02      # accelerometer measurement noise standard deviation. #0.2   0.04
+gyr_n: 2.268e-02      # gyroscope measurement noise standard deviation.     #0.05  0.004
+acc_w: 9.999e-02      # accelerometer bias random work noise standard deviation.  #0.002
+gyr_w: 7.071e-03      # gyroscope bias random work noise standard deviation.     #4.0e-5
 g_norm: 9.80593132349  # gravity magnitude. Median from motionless dataset at Eschikon on 210513.
 
 #unsynchronization parameters
